@@ -1,0 +1,8 @@
+I've pretty much made this file, and now I can't figure out how to access it
+As in, I do new File("nounlist.txt") but it can't find it.
+I've tried every directory in the project file, but the program still can't find it,
+Therefore, you can find it in io.github.vkb24312.confirmer.wordlist
+
+Feel free to integrate the noun list into the code
+
+-Vince
