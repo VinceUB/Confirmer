@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] s){
-        JFrame frame = new JFrame("The self aware program!");
+        JFrame frame = new JFrame("The Allmighty Confirmer!");
         JPanel panel = new JPanel();
         final JTextArea field = new JTextArea("Placeholder text placeholder text placeholder \ntext", 2,25);
         JLabel description = new JLabel("Type your questions to the program here");
