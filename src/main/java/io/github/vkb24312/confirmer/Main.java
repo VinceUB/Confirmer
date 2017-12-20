@@ -1,13 +1,9 @@
 package io.github.vkb24312.confirmer;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
@@ -31,16 +27,6 @@ public class Main {
         textArea.setPreferredSize(new Dimension(300, 100));
         field.setPreferredSize(new Dimension(300, 100));
         frame.setDefaultCloseOperation(3);
-
-        textArea.getDocument().addDocumentListener(new DocumentListener() {
-            public void insertUpdate(DocumentEvent e){
-                if(textArea.getText().length()%25==0){
-                    textArea.append("\n");
-                }
-            }
-            public void removeUpdate(DocumentEvent e){}
-            public void changedUpdate(DocumentEvent e) {}
-        });
 
         submit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +85,7 @@ public class Main {
                     textArea.setText(finalString);
                 }
 
-                textArea.setText(newLine(textArea.getText(), 25));
+                textArea.setText(newLine(textArea.getText(), 300));
 
                 field.setText("");
             }
@@ -138,6 +124,13 @@ public class Main {
     }
 
     private static String newLine(String s, int spaceOnEachLine){
+        FontMetrics fontMetrics = new FontMetrics(new JTextArea().getFont()) {};
+        int size = (int) fontMetrics.getStringBounds(s, null).getWidth();
+
+        int averageLetterSize = size/s.length();
+
+        spaceOnEachLine = (spaceOnEachLine/averageLetterSize)- 0xa;
+
         StringBuilder sb = new StringBuilder(s);
         int newSpaceOnLine = spaceOnEachLine;
         int i = 0;
