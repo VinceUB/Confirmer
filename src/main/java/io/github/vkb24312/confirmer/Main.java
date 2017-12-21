@@ -2,8 +2,6 @@ package io.github.vkb24312.confirmer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Scanner;
 
 public class Main {
@@ -38,56 +36,11 @@ public class Main {
             String submission = field.getText().toLowerCase();
 
             if(submission.startsWith("are you ")){
-                StringBuilder sb = new StringBuilder(submission);
-                if(submission.charAt(submission.length()-1)=='?') {
-                    sb.deleteCharAt(submission.length()-1);
-                }
-                sb.append("!");
-                sb.delete(0, 8);
-                textArea.setText("Of course I am " + sb.toString());
+                textArea.setText(are_you(submission));
             } else if(submission.startsWith("am i ")){
-                StringBuilder sb = new StringBuilder(submission);
-                if(submission.charAt(submission.length()-1)=='?') {
-                    sb.deleteCharAt(submission.length()-1);
-                }
-                sb.append("!");
-                sb.delete(0, 5);
-                textArea.setText("Of course you are " + sb.toString());
+                textArea.setText(am_i(submission));
             } else if(submission.startsWith("is")){
-                Scanner s = new Scanner(submission);
-                s.useDelimiter(" ");
-                s.next();
-                String person = s.next();
-
-                if(submission.substring(3, 6).equals("the")||submission.substring(3, 6).equals("her")||submission.substring(3, 6).equals("his")||submission.substring(3, 8).equals("their")||submission.substring(3, 6).equals("our")||submission.substring(3, 5).equals("my")) {
-                    person = person + " " + s.next();
-                } else if(submission.substring(3, 7).equals("that")||submission.substring(3, 7).equals("this")){
-
-                    Scanner s1 = new Scanner(submission);
-                    s1.next();
-                    int i = 0;
-                    while(s1.next().equals(wordlist.nounlist[i])){i++;}
-                    if(i!=wordlist.nounlist.length){
-                        person = person + " " + s.next();
-                    }
-                }
-                StringBuilder sb = new StringBuilder(submission);
-                if(submission.charAt(submission.length()-1)=='?') {
-                    sb.deleteCharAt(submission.length()-1);
-                }
-
-                sb.delete(0, person.length()+3);
-
-                String finalString = deme(sb.toString());
-                person = deme(person);
-
-                if(finalString.charAt(finalString.length()-1)=='?') {
-                    finalString = new StringBuilder(finalString).replace(finalString.length() - 2, finalString.length() - 1, "!").toString();
-                }
-
-                finalString = "Of course " + person + "is" + finalString;
-
-                textArea.setText(finalString);
+                textArea.setText(is(submission));
             }
 
             textArea.setText(newLine(textArea.getText(), 300));
@@ -157,6 +110,63 @@ public class Main {
         }
 
         return sb.toString();
+    }
+
+    private static String are_you(String s){
+        StringBuilder sb = new StringBuilder(s);
+        if(s.charAt(s.length()-1)=='?') {
+            sb.deleteCharAt(s.length()-1);
+        }
+        sb.append("!");
+        sb.delete(0, 8);
+        return "Of course I am " + sb.toString();
+    }
+
+    private static String am_i(String s){
+        StringBuilder sb = new StringBuilder(s);
+        if(s.charAt(s.length()-1)=='?') {
+            sb.deleteCharAt(s.length()-1);
+        }
+        sb.append("!");
+        sb.delete(0, 5);
+        return "Of course you are " + sb.toString();
+    }
+
+    private static String is(String s){
+        Scanner s1 = new Scanner(s);
+        s1.useDelimiter(" ");
+        s1.next();
+        String person = s1.next();
+
+        if(s.substring(3, 6).equals("the")||s.substring(3, 6).equals("her")||s.substring(3, 6).equals("his")||s.substring(3, 8).equals("their")||s.substring(3, 6).equals("our")||s.substring(3, 5).equals("my")) {
+            person = person + " " + s1.next();
+        } else if(s.substring(3, 7).equals("that")||s.substring(3, 7).equals("this")){
+
+            Scanner s2 = new Scanner(s);
+            s2.next();
+            int i = 0;
+            while(s2.next().equals(wordlist.nounlist[i])){i++;}
+            if(i!=wordlist.nounlist.length){
+                person = person + " " + s1.next();
+            }
+        }
+        StringBuilder sb = new StringBuilder(s);
+        if(s.charAt(s.length()-1)=='?') {
+            sb.deleteCharAt(s.length()-1);
+        }
+
+        sb.delete(0, person.length()+3);
+
+        String finalString = deme(sb.toString());
+        person = deme(person);
+
+        if(finalString.charAt(finalString.length()-1)=='?') {
+            finalString = new StringBuilder(finalString).replace(finalString.length() - 2, finalString.length() - 1, "!").toString();
+        }
+
+        finalString = "Of course " + person + "is" + finalString;
+
+        return finalString;
     }
 }
 //TODO: Do something actually productive
