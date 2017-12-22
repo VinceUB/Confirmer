@@ -31,10 +31,11 @@ public class Main {
         frame.setSize(350, 500);
 
         textArea.setPreferredSize(new Dimension(300, 100));
-        field.setPreferredSize(new Dimension(290, 90));
+        field.setPreferredSize(new Dimension(300, 100));
         frame.setDefaultCloseOperation(3);
         scrollPane.setVisible(true);
-        scrollPane.setPreferredSize(new Dimension(300, 100));
+        scrollPane.setPreferredSize(new Dimension(300+scrollPane.getVerticalScrollBar().getPreferredSize().width, 100+scrollPane.getHorizontalScrollBar().getPreferredSize().height));
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         //</editor-fold>
 
         submit.addActionListener(e -> {
@@ -46,16 +47,13 @@ public class Main {
                 textArea.setText(am_i(submission));
             } else if(submission.startsWith("is")){
                 textArea.setText(is(submission));
-            } else if(submission.startsWith("does")){
-
             } else {
                 textArea.setText(
                         "I have absolutely no idea what you just asked.\n" +
-                        "Please use one of the following prefixes when asking:\n" +
+                        "Please use one of the following prefixes:\n" +
                         "\"Are you\"\n" +
                         "\"Am I\"\n" +
-                        "\"Is\"\n" +
-                        "\"Does\""
+                        "\"Is\""
                 );
             }
 
@@ -119,17 +117,22 @@ public class Main {
         int i = 0;
         label:
         while(i<=sb.length()){
-            while (i < newSpaceOnLine) {
-                if(s.charAt(i)=='\n'){
+            while (i < newSpaceOnLine & i < sb.length()) {
+                if(sb.charAt(i)=='\n'){
                     newSpaceOnLine = newSpaceOnLine + i;
                     break label;
                 }
                 i++;
             }
-            if(sb.toString().length()>i) {
-                sb.insert(i, "\n");
-            }
+
             newSpaceOnLine = newSpaceOnLine + spaceOnEachLine;
+
+            if(sb.length()>=i) {
+                sb.insert(i, "\n");
+            } else {
+                System.out.print("\u0000");
+                break;
+            }
         }
 
         return sb.toString();
