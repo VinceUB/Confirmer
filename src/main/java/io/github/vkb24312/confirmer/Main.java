@@ -15,7 +15,7 @@ public class Main {
         //<editor-fold desc="JFrame setup">
         JFrame frame = new JFrame("The Allmighty Confirmer!");
         JPanel panel = new JPanel();
-        final JTextArea field = new JTextArea("Placeholder text placeholder text placeholder \ntext", 2,25);
+        final JTextArea field = new JTextArea("", 2,25);
         JLabel description = new JLabel("Type your questions to the program here");
         final JTextArea textArea = new JTextArea("I am a computer. Ask me your questions in the \nbox above", 2, 25);
         JButton submit = new JButton("Submit");
