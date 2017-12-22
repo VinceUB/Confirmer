@@ -2,6 +2,7 @@ package io.github.vkb24312.confirmer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
@@ -11,26 +12,30 @@ public class Main {
                 +"You are currently using JVM version: "
                 + System.getProperty("java.version")
         );
-
+        //<editor-fold desc="JFrame setup">
         JFrame frame = new JFrame("The Allmighty Confirmer!");
         JPanel panel = new JPanel();
         final JTextArea field = new JTextArea("Placeholder text placeholder text placeholder \ntext", 2,25);
         JLabel description = new JLabel("Type your questions to the program here");
         final JTextArea textArea = new JTextArea("I am a computer. Ask me your questions in the \nbox above", 2, 25);
         JButton submit = new JButton("Submit");
+        JScrollPane scrollPane = new JScrollPane(textArea);
 
         textArea.setEditable(false);
         frame.setVisible(true);
         frame.add(panel);
         panel.add(description);
         panel.add(field);
-        panel.add(textArea);
+        panel.add(scrollPane);
         panel.add(submit);
         frame.setSize(350, 500);
 
         textArea.setPreferredSize(new Dimension(300, 100));
-        field.setPreferredSize(new Dimension(300, 100));
+        field.setPreferredSize(new Dimension(290, 90));
         frame.setDefaultCloseOperation(3);
+        scrollPane.setVisible(true);
+        scrollPane.setPreferredSize(new Dimension(300, 100));
+        //</editor-fold>
 
         submit.addActionListener(e -> {
             String submission = field.getText().toLowerCase();
@@ -41,14 +46,27 @@ public class Main {
                 textArea.setText(am_i(submission));
             } else if(submission.startsWith("is")){
                 textArea.setText(is(submission));
+            } else if(submission.startsWith("does")){
+
+            } else {
+                textArea.setText(
+                        "I have absolutely no idea what you just asked.\n" +
+                        "Please use one of the following prefixes when asking:\n" +
+                        "\"Are you\"\n" +
+                        "\"Am I\"\n" +
+                        "\"Is\"\n" +
+                        "\"Does\""
+                );
             }
 
             textArea.setText(newLine(textArea.getText(), 300));
+            textArea.setPreferredSize(goodJTextAreaSize(textArea));
 
             field.setText("");
         });
     }
 
+    //<editor-fold desc="Utilities">
     private static String deme(String s){
         String[] myCheckerString = s.split(" ");
         int i = 0;
@@ -99,8 +117,13 @@ public class Main {
         StringBuilder sb = new StringBuilder(s);
         int newSpaceOnLine = spaceOnEachLine;
         int i = 0;
+        label:
         while(i<=sb.length()){
             while (i < newSpaceOnLine) {
+                if(s.charAt(i)=='\n'){
+                    newSpaceOnLine = newSpaceOnLine + i;
+                    break label;
+                }
                 i++;
             }
             if(sb.toString().length()>i) {
@@ -112,6 +135,39 @@ public class Main {
         return sb.toString();
     }
 
+    private static Dimension goodJTextAreaSize(JTextArea textArea){
+        String text = textArea.getText();
+
+        int lengthOfLongest = 0;
+        int longestLine = 0;
+        ArrayList lines = new ArrayList();
+        int i = 0;
+        int lineStart = 0;
+        for (int j = 0; j < text.length(); j++) {
+            if (text.charAt(j) == '\n') {
+                if(j>lengthOfLongest){
+                    lengthOfLongest = j;
+                    longestLine = i;
+                }
+                if(lineStart<1) lines.add(i, text.substring(lineStart, j));
+                else lines.add(i, text.substring(lineStart-1, j));
+                i++;
+                lineStart = j+1;
+            }
+        }
+
+        int height;
+        int width;
+        FontMetrics fm = new FontMetrics(textArea.getFont()) {};
+        width = (int) fm.getStringBounds((String) lines.get(longestLine), null).getWidth();
+
+        height = i*((int) fm.getStringBounds((String) lines.get(longestLine), null).getWidth());
+
+        return new Dimension(width, height);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="Prefix reactions">
     private static String are_you(String s){
         StringBuilder sb = new StringBuilder(s);
         if(s.charAt(s.length()-1)=='?') {
@@ -168,5 +224,11 @@ public class Main {
 
         return finalString;
     }
+    //</editor-fold>
 }
+
+
+
+
+
 //TODO: Do something actually productive
