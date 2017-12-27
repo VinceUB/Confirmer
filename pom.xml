@@ -101,7 +101,8 @@
                                     <manifestEntries>
                                         <Main-Class>io.github.vkb24312.confirmer.Main</Main-Class>
                                         <Implementation-Title>${project.artifactId}</Implementation-Title>
-                                        <Implementation-Version>${project.version}-r${buildNumber}</Implementation-Version>
+                                        <Implementation-Version>${project.version} r${buildNumber}</Implementation-Version>
+                                        <Repository-url>${project.scm.url}</Repository-url>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
