@@ -8,10 +8,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args){
         System.out.println(
-                "This program has last been written in JDK version 9.0.1\n"
-                +"You are currently using JVM version: "
-                + System.getProperty("java.version")
+                "For details such as our website and compiler version, check META-INF/MANIFEST.MF in the JAR archive\n\n"
+                +"You are currently using JVM version: " + System.getProperty("java.version") + " on the OS \"" + System.getProperty("os.name") + "\""
         );
+
+
         //<editor-fold desc="JFrame setup">
         JFrame frame = new JFrame("The Allmighty Confirmer!");
         JPanel panel = new JPanel();
