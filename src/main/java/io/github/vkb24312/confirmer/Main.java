@@ -48,14 +48,16 @@ public class Main {
                 textArea.setText(am_i(submission));
             } else if(submission.startsWith("is")){
                 textArea.setText(is(submission));
+            } else if(submission.startsWith("does")){
+                textArea.setText(does(submission));
             } else {
-                textArea.setText(
-                        "I have absolutely no idea what you just asked.\n" +
-                        "Please use one of the following prefixes:\n" +
-                        "\"Are you\"\n" +
-                        "\"Am I\"\n" +
-                        "\"Is\""
-                );
+                    textArea.setText(
+                            "I have absolutely no idea what you just asked.\n" +
+                                    "Please use one of the following prefixes:\n" +
+                                    "\"Are you\"\n" +
+                                    "\"Am I\"\n" +
+                                    "\"Is\""
+                    );
             }
 
             textArea.setText(newLine(textArea.getText(), 300));
@@ -227,6 +229,37 @@ public class Main {
         finalString = "Of course " + person + "is" + finalString;
 
         return finalString;
+    }
+
+    private static String does(String s){
+        Scanner s1 = new Scanner(s);
+        s1.useDelimiter(" ");
+        s1.next();
+        String person = s1.next();
+
+        if(s.substring(5, 8).equals("the")||s.substring(5, 8).equals("her")||s.substring(5, 8).equals("his")||s.substring(5, 10).equals("their")||s.substring(5, 8).equals("our")||s.substring(5, 7).equals("my")) {
+            person = person + " " + s1.next();
+        } else if(s.substring(5, 9).equals("that")||s.substring(5, 9).equals("this")){
+
+            Scanner s2 = new Scanner(s);
+            s2.next();
+            int i = 0;
+            while(s2.next().equals(wordlist.nounlist[i])){i++;}
+            if(i!=wordlist.nounlist.length){
+                person = person + " " + s1.next();
+            }
+        }
+
+        String finals = new StringBuilder(s).delete(0, person.length()+5).toString();
+
+        if(finals.charAt(finals.length()-1)=='?') {
+            finals = new StringBuilder(finals).replace(finals.length() - 1, finals.length(), "!").toString();
+        }
+
+        finals = deme(new StringBuilder(finals).deleteCharAt(finals.length()-1).toString()) + "!";
+        person = deme(person);
+
+        return (person + " does" + finals);
     }
     //</editor-fold>
 }
