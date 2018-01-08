@@ -56,12 +56,13 @@ public class Main {
                                     "Please use one of the following prefixes:\n" +
                                     "\"Are you\"\n" +
                                     "\"Am I\"\n" +
-                                    "\"Is\""
+                                    "\"Is\"\n" +
+                                    "\"Does\""
                     );
             }
 
-            textArea.setText(newLine(textArea.getText(), 300));
-            textArea.setPreferredSize(goodJTextAreaSize(textArea));
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
 
             field.setText("");
         });
@@ -80,6 +81,8 @@ public class Main {
                     s1 = "yours";
                     break;
                 case "I":
+                    s1 = "you";
+                    break;
                 case "me":
                     s1 = "you";
                     break;
@@ -107,7 +110,7 @@ public class Main {
         return finalString;
     }
 
-    private static String newLine(String s, int spaceOnEachLine){
+    /*private static String newLine(String s, int spaceOnEachLine){
         FontMetrics fontMetrics = new FontMetrics(new JTextArea().getFont()) {};
         int size = (int) fontMetrics.getStringBounds(s, null).getWidth();
 
@@ -139,18 +142,18 @@ public class Main {
         }
 
         return sb.toString();
-    }
+    }*/
 
-    private static Dimension goodJTextAreaSize(JTextArea textArea){
+    /*private static Dimension goodJTextAreaSize(JTextArea textArea){
         String text = textArea.getText();
 
         int lengthOfLongest = 0;
         int longestLine = 0;
-        ArrayList lines = new ArrayList();
+        ArrayList<String> lines = new ArrayList<>();
         int i = 0;
         int lineStart = 0;
         for (int j = 0; j < text.length(); j++) {
-            if (text.charAt(j) == '\n') {
+            if (text.charAt(j) != '\n') {
                 if(j>lengthOfLongest){
                     lengthOfLongest = j;
                     longestLine = i;
@@ -165,12 +168,13 @@ public class Main {
         int height;
         int width;
         FontMetrics fm = new FontMetrics(textArea.getFont()) {};
-        width = (int) fm.getStringBounds((String) lines.get(longestLine), null).getWidth();
+        System.out.println(lines);
+        width = (int) fm.getStringBounds(lines.get(longestLine), null).getWidth();
 
-        height = i*((int) fm.getStringBounds((String) lines.get(longestLine), null).getWidth());
+        height = i*((int) fm.getStringBounds(lines.get(longestLine), null).getWidth());
 
         return new Dimension(width, height);
-    }
+    }*/
     //</editor-fold>
 
     //<editor-fold desc="Prefix reactions">
@@ -181,7 +185,7 @@ public class Main {
         }
         sb.append("!");
         sb.delete(0, 8);
-        return "Of course I am " + sb.toString();
+        return "Of course I am " + deme(sb.toString());
     }
 
     private static String am_i(String s){
@@ -191,7 +195,7 @@ public class Main {
         }
         sb.append("!");
         sb.delete(0, 5);
-        return "Of course you are " + sb.toString();
+        return "Of course you are " + deme(sb.toString());
     }
 
     private static String is(String s){
